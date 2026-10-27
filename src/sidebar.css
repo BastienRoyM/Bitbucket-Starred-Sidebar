@@ -1,0 +1,128 @@
+/* Uses Atlassian design tokens when present so it follows Bitbucket's light/dark theme. */
+#bbs-root {
+  --bbs-text: var(--ds-text, #172b4d);
+  --bbs-subtle: var(--ds-text-subtle, #42526e);
+  --bbs-muted: var(--ds-text-subtlest, #6b778c);
+  --bbs-bg: var(--ds-surface, #fff);
+  --bbs-hover: var(--ds-background-neutral-subtle-hovered, #f1f2f4);
+  --bbs-selected: var(--ds-background-selected, #e9f2ff);
+  --bbs-selected-text: var(--ds-text-selected, #0c66e4);
+  --bbs-border: var(--ds-border, #dfe1e6);
+  --bbs-mine-bg: var(--ds-background-information, #e9f2ff);
+  --bbs-mine-text: var(--ds-text-information, #0055cc);
+  --bbs-review-bg: var(--ds-background-warning, #fff7d6);
+  --bbs-review-text: var(--ds-text-warning, #a54800);
+
+  font: 14px/1.3 var(--ds-font-family-body, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  color: var(--bbs-text);
+  background: var(--bbs-bg);
+  padding: 8px 12px 0;
+}
+
+#bbs-root.bbs-pinned {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+#bbs-root.bbs-pinned .bbs-body { overflow-y: auto; min-height: 0; }
+
+#bbs-root .bbs-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--bbs-muted);
+}
+
+#bbs-root .bbs-gear {
+  all: unset;
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--bbs-muted);
+}
+#bbs-root .bbs-gear:hover { background: var(--bbs-hover); color: var(--bbs-text); }
+#bbs-root .bbs-gear svg { width: 14px; height: 14px; }
+
+#bbs-root .bbs-group { margin-bottom: 4px; }
+
+#bbs-root a.bbs-repo,
+#bbs-root a.bbs-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  padding: 0 6px;
+  border-radius: 4px;
+  color: var(--bbs-text);
+  text-decoration: none;
+}
+#bbs-root a.bbs-repo { font-weight: 600; }
+/* Link icons sit under the repo avatar so labels line up with the repo name. */
+#bbs-root a.bbs-link { padding-left: 9px; gap: 10px; color: var(--bbs-subtle); min-height: 26px; }
+#bbs-root .bbs-ico { display: inline-flex; flex: none; width: 14px; height: 14px; color: var(--bbs-muted); }
+#bbs-root .bbs-ico svg { width: 14px; height: 14px; }
+#bbs-root a.bbs-on .bbs-ico { color: inherit; }
+#bbs-root a.bbs-repo:hover,
+#bbs-root a.bbs-link:hover { background: var(--bbs-hover); }
+#bbs-root a.bbs-on { background: var(--bbs-selected); color: var(--bbs-selected-text); }
+
+#bbs-root .bbs-av {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex: none;
+  background: var(--bbs-hover);
+}
+#bbs-root .bbs-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+#bbs-root .bbs-cnts { display: inline-flex; gap: 4px; flex: none; }
+#bbs-root .bbs-cnt {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 600;
+}
+#bbs-root .bbs-cnt svg { width: 11px; height: 11px; }
+#bbs-root .bbs-cnt-mine { background: var(--bbs-mine-bg); color: var(--bbs-mine-text); }
+#bbs-root .bbs-cnt-review { background: var(--bbs-review-bg); color: var(--bbs-review-text); }
+
+#bbs-root .bbs-msg { padding: 4px 6px 8px; font-size: 12px; color: var(--bbs-muted); }
+
+#bbs-root .bbs-divider {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: calc(100% + 24px);
+  margin: 4px -12px 0;
+  padding: 8px 14px;
+  border-top: 2px solid var(--bbs-border);
+  border-bottom: 1px solid var(--bbs-border);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--bbs-muted);
+  cursor: pointer;
+}
+#bbs-root .bbs-divider:hover { background: var(--bbs-hover); color: var(--bbs-text); }
+#bbs-root .bbs-divider svg { width: 12px; height: 12px; transition: transform .15s; }
+#bbs-root .bbs-divider[aria-expanded="true"] svg { transform: rotate(90deg); }
+
+/* Collapsed: hide Bitbucket's own sidebar content; our section can use the full height. */
+[data-bbs-collapsed] > :not(#bbs-root) { display: none !important; }
+[data-bbs-collapsed] > #bbs-root.bbs-pinned { max-height: none; }

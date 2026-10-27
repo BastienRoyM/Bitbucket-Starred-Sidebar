@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+  <!-- Simplified for 16/32 px: full-bleed square and a star, no fine lines. -->
+  <rect x="0" y="0" width="16" height="16" rx="3.5" fill="#2563eb"/>
+  <polygon points="8.0,2.2 9.5,6.3 13.9,6.5 10.5,9.2 11.6,13.4 8.0,11.0 4.4,13.4 5.5,9.2 2.1,6.5 6.5,6.3" fill="#fff" stroke="#fff" stroke-width=".6" stroke-linejoin="round"/>
+</svg>

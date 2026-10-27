@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Starred Sidebar for Bitbucket</title>
+  <style>
+    :root { color-scheme: light dark; --text: #172b4d; --muted: #6b778c; --bg: #fff; --border: #dfe1e6; }
+    @media (prefers-color-scheme: dark) { :root { --text: #dee4ea; --muted: #8c9bab; --bg: #1d2125; --border: #38414a; } }
+    body { margin: 0; min-width: 280px; padding: 16px; font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: var(--bg); }
+    h1 { font-size: 15px; margin: 0 0 4px; }
+    p { margin: 0 0 12px; color: var(--muted); font-size: 12px; }
+    h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 16px 0 6px; padding-top: 12px; border-top: 1px solid var(--border); }
+    label { display: flex; gap: 8px; align-items: center; padding: 3px 0; cursor: pointer; }
+    .hint { margin: 2px 0 0 24px; font-size: 12px; color: var(--muted); }
+    #saved { font-size: 12px; color: var(--muted); height: 16px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Starred Sidebar for Bitbucket</h1>
+  <p>Repos come from your Bitbucket stars. Star or unstar a repo in Bitbucket to change the list.</p>
+
+  <h2>Links under every repo</h2>
+  <div id="links"></div>
+
+  <h2>Layout</h2>
+  <label><input type="checkbox" id="pinned"> Pin to the top of the sidebar</label>
+  <div class="hint">When off, it scrolls away with Bitbucket's sidebar.</div>
+
+  <div id="saved"></div>
+  <script src="core.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
