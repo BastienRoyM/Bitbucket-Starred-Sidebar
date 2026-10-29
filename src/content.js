@@ -92,7 +92,6 @@
 
     const body = el('div', { class: 'bbs-body' });
     const path = location.pathname;
-    const currentRepo = core.repoFromPath(path);
     const links = core.selectedLinks(state.settings);
 
     if (state.error) {
@@ -104,8 +103,8 @@
     }
 
     for (const repo of state.repos || []) {
-      const isCurrent = currentRepo === repo.fullName.toLowerCase();
-      const key = isCurrent ? core.activeLinkKey(path, repo.fullName) : null;
+      const isCurrent = core.isCurrentRepo(path, repo);
+      const key = isCurrent ? core.activeLinkKey(path) : null;
       // Highlight the repo row itself when the current section isn't one of the shown links.
       const active = links.some((l) => l.key === key) ? key : null;
       const avatar = repo.avatar ? el('img', { class: 'bbs-av', src: repo.avatar, alt: '' }) : el('span', { class: 'bbs-av' });

@@ -31,17 +31,33 @@
     return LINKS.filter((l) => keys.has(l.key));
   }
 
+  // Path segments, decoded: UUID-addressed URLs arrive as /%7B...%7D/%7B...%7D/.
+  function pathSegments(pathname) {
+    return (pathname || '').split('/').filter(Boolean).map((seg) => {
+      try { return decodeURIComponent(seg); } catch (_) { return seg; }
+    });
+  }
+
+  // Workspace slug, or "{uuid}" on UUID-addressed pages (the API accepts both).
   function workspaceFromPath(pathname) {
-    const seg = (pathname || '').split('/').filter(Boolean)[0];
+    const seg = pathSegments(pathname)[0];
     if (!seg || RESERVED.has(seg.toLowerCase())) return null;
     return seg;
   }
 
   // "ws/repo" for /ws/repo/..., or null outside a repository.
   function repoFromPath(pathname) {
-    const segs = (pathname || '').split('/').filter(Boolean);
+    const segs = pathSegments(pathname);
     if (segs.length < 2 || !workspaceFromPath(pathname)) return null;
     return `${segs[0]}/${segs[1]}`.toLowerCase();
+  }
+
+  // Whether the page is inside this starred repo, addressed by slug or by UUID.
+  function isCurrentRepo(pathname, repo) {
+    const current = repoFromPath(pathname);
+    if (!current) return false;
+    if (current === repo.fullName.toLowerCase()) return true;
+    return !!repo.uuid && current.split('/')[1] === repo.uuid.toLowerCase();
   }
 
   function linkHref(fullName, link) {
@@ -49,11 +65,8 @@
   }
 
   // The link the current page belongs to, so it can be highlighted.
-  function activeLinkKey(pathname, fullName) {
-    const prefix = `/${fullName}`.toLowerCase();
-    const p = (pathname || '').toLowerCase();
-    if (p !== prefix && !p.startsWith(prefix + '/')) return null;
-    const rest = p.slice(prefix.length);
+  function activeLinkKey(pathname) {
+    const rest = '/' + pathSegments(pathname).slice(2).join('/').toLowerCase();
     const hit = LINKS.find((l) => rest === l.path || rest.startsWith(l.path + '/'));
     return hit ? hit.key : null;
   }
@@ -72,7 +85,7 @@
     return `/!api/internal/workspaces/${encodeURIComponent(workspace)}/starred?object_type=repositories&pagelen=100`;
   }
 
-  // Starred API values -> [{fullName, name, avatar}], keeping Bitbucket's order.
+  // Starred API values -> [{fullName, name, avatar, uuid}], keeping Bitbucket's order.
   function parseStarred(json) {
     return ((json && json.values) || [])
       .map((v) => v && v.resource)
@@ -81,12 +94,13 @@
         fullName: r.full_name,
         name: r.name || r.full_name.split('/')[1],
         avatar: (r.links && r.links.avatar && r.links.avatar.href) || null,
+        uuid: r.uuid || null,
       }));
   }
 
   const api = {
     LINKS, DEFAULT_SETTINGS, normalizeSettings, selectedLinks, workspaceFromPath, repoFromPath,
-    linkHref, activeLinkKey, prQuery, prCountUrl, starredUrl, parseStarred,
+    isCurrentRepo, linkHref, activeLinkKey, prQuery, prCountUrl, starredUrl, parseStarred,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.BBS = api;
