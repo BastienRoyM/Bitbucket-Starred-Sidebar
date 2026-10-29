@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Starred Sidebar for Bitbucket",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Keeps your starred repos always open at the top of the Bitbucket Cloud sidebar, with PR counters. Not affiliated with Atlassian.",
   "icons": {
     "16": "icons/icon16.png",
